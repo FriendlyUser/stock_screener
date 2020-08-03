@@ -7,7 +7,7 @@ class TickerController:
   """
     Grabs cad_tickers dataframes and normalized them
   """
-  def __init__(self, update=True):
+  def __init__(self, cfg: dict):
     """
       Extract yahoo finance tickers from website
 
@@ -16,15 +16,22 @@ class TickerController:
     """
     self.yf_tickers = []
     # update tsx tickers
-    tsx_df = dl_tsx_xlsx(sectors='technology')
-    tsx_df = tsx_df[['Ex.', 'Ticker']]
-    ytickers_series = tsx_df.apply(self.tsx_ticker_to_yahoo, axis=1)
-    ytickers = ytickers_series.tolist()
-    self.tsx_df = tsx_df
-    self.ytickers = ytickers
+    tsx_cfg = cfg.get('tsx')
+
+    if tsx_cfg is not None:
+      tsx_ticker_cfg = tsx_cfg.get('tickers_config')
+      if tsx_ticker_cfg is not None:
+        tsx_df = dl_tsx_xlsx(**tsx_ticker_cfg)
+        tsx_df = tsx_df[['Ex.', 'Ticker']]
+        ytickers_series = tsx_df.apply(self.tsx_ticker_to_yahoo, axis=1)
+        ytickers_series = ytickers_series.drop_duplicates(keep='last')
+        ytickers = ytickers_series.tolist()
+        self.yf_tickers = [*self.yf_tickers, *ytickers]
+    
+    # DO cse listings
 
   def get_ytickers(self)-> list:
-    return self.ytickers
+    return self.yf_tickers
 
   @staticmethod
   def tsx_ticker_to_yahoo(row: pd.Series)-> str:
@@ -46,4 +53,7 @@ class TickerController:
     return f"{ticker}.{yahoo_ex}"
 
 if __name__ == "__main__":
-  ticker_controller = TickerController()
+  import json
+  with open('cfg/tsx_technology.json') as file_:
+    cfg = json.load(file_)
+    ticker_controller = TickerController(cfg)

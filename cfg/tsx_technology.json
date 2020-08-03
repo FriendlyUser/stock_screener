@@ -1,0 +1,13 @@
+{
+  "tsx": {
+    "tickers_config": {
+      "exchanges": "TSXV",
+      "sectors": "technology"
+    }
+  },
+  "settings": {
+    "month_cutoff": 5,
+    "day_cutoff": 3,
+    "std_cutoff": 1.1
+  }
+}
