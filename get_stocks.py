@@ -3,6 +3,7 @@
 """
 import pandas as pd
 from cad_tickers.exchanges.tsx import dl_tsx_xlsx, add_descriptions_to_df_pp
+from cad_tickers.exchanges.cse import get_cse_tickers_df
 class TickerController:
   """
     Grabs cad_tickers dataframes and normalized them
@@ -29,9 +30,24 @@ class TickerController:
         self.yf_tickers = [*self.yf_tickers, *ytickers]
     
     # DO cse listings
+    cse_cfg = cfg.get('cse')
+    if cse_cfg is not None:
+      # ticker_cfg, not going to check if atm
+      cse_ticker_cfg = cse_cfg.get('tickers_config')
+      cse_df = get_cse_tickers_df()
+      cse_df = cse_df[['Symbol']]
+      ytickers_series = cse_df.apply(self.cse_ticker_to_yahoo, axis=1)
+      ytickers_series = ytickers_series.drop_duplicates(keep='last')
+      ytickers = ytickers_series.tolist()
+      self.yf_tickers = [*self.yf_tickers, *ytickers]
 
   def get_ytickers(self)-> list:
     return self.yf_tickers
+
+  @staticmethod
+  def cse_ticker_to_yahoo(row: pd.Series)-> str:
+    ticker = row['Symbol']
+    return f"{ticker}.CN"
 
   @staticmethod
   def tsx_ticker_to_yahoo(row: pd.Series)-> str:

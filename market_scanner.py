@@ -9,6 +9,9 @@ import json
 import multiprocessing
 from datetime import datetime, date
 from get_stocks import TickerController
+from util import post_webhook
+
+search_settings = dict()
 
 def get_data(ticker: str, month_cutoff=5)-> pd.DataFrame:
   currentDate = datetime.strptime(
@@ -30,7 +33,6 @@ def find_anomalies(data: pd.DataFrame, STD_CUTOFF = 1)-> dict:
   data.reset_index(level=0, inplace=True)
   for i in range(len(data)):
       temp = data['Volume'].iloc[i]
-      print(temp)
       if temp > upper_limit:
           indexs.append(str(data['Date'].iloc[i])[:-9])
           outliers.append(temp)
@@ -51,18 +53,17 @@ def days_between(d1: str, d2: str):
   d2 = datetime.strptime(d2, "%Y-%m-%d")
   return abs((d2 - d1).days)
 
-def get_match(ticker, **kwargs):
+def get_match(ticker):
   """
     get match for ticker
   """
-  MONTH_CUTOFF = kwargs.get('month_cutoff', 5)
-  DAY_CUTOFF = kwargs.get('day_cutoff', 3)
-  STD_CUTOFF = kwargs.get('std_cutoff', 0.75)
+  MONTH_CUTOFF = search_settings.get('month_cutoff', 5)
+  DAY_CUTOFF = search_settings.get('day_cutoff', 3)
+  STD_CUTOFF = search_settings.get('std_cutoff', 0.75)
   currentDate = datetime.strptime(
       date.today().strftime("%Y-%m-%d"), "%Y-%m-%d")
   ticker_data = get_data(ticker, MONTH_CUTOFF)
   d = find_anomalies(ticker_data, STD_CUTOFF)
-  positive_scans = []
   if d['Dates']:
     for i in range(len(d['Dates'])):
       # Within current date
@@ -73,19 +74,20 @@ def get_match(ticker, **kwargs):
         stonk['TargetDate'] = d['Dates'][0]
         stonk['TargetVolume'] = str(
             '{:,.2f}'.format(d['Volume'][0]))[:-3]
-        positive_scans.append(stonk)
-  return positive_scans
+        return stonk
 
-def get_stock_matches(tickers, **kwargs):
+def get_stock_matches(tickers):
   """
     parallelize this
   """
-  MONTH_CUTOFF = kwargs.get('month_cutoff', 5)
-  DAY_CUTOFF = kwargs.get('day_cutoff', 3)
-  STD_CUTOFF = kwargs.get('std_cutoff', 0.75)
+  MONTH_CUTOFF = search_settings.get('month_cutoff', 5)
+  DAY_CUTOFF = search_settings.get('day_cutoff', 3)
+  STD_CUTOFF = search_settings.get('std_cutoff', 0.75)
   currentDate = datetime.strptime(
           date.today().strftime("%Y-%m-%d"), "%Y-%m-%d")
-  positive_scans = []
+  cpus = multiprocessing.cpu_count()
+  with multiprocessing.Pool(processes=cpus) as pool:
+        results = pool.map(get_match, tickers)
   for ticker in tickers:
     ticker_data = get_data(ticker, MONTH_CUTOFF)
     d = find_anomalies(ticker_data, STD_CUTOFF)
@@ -99,21 +101,36 @@ def get_stock_matches(tickers, **kwargs):
           stonk['TargetVolume'] = str(
               '{:,.2f}'.format(d['Volume'][0]))[:-3]
           positive_scans.append(stonk)
-  print(positive_scans)
   return positive_scans
 
 
-if __name__ == '__main__':
+def scan_markets():
+  global search_settings
   from datetime import datetime
   start_time = datetime.now()
   # every json file has settings controlling what tickers will be "found"
   for cfg_file in glob.glob("cfg/*.json"):
+    positive_scans = []
     with open(cfg_file) as file_:
       cfg = json.load(file_)
-      search_settings = cfg.get('settings')
-      ticker_controller = TickerController(cfg)
-      tickers = ticker_controller.get_ytickers()
-      get_stock_matches(tickers, **search_settings)
+    search_settings = cfg.get('settings')
+    ticker_controller = TickerController(cfg)
+    tickers = ticker_controller.get_ytickers()
+    cpus = multiprocessing.cpu_count()
+    with multiprocessing.Pool(cpus) as p:
+      positive_scans = p.map(get_match, tickers)
+    
+    title = cfg.get('name', '')
+    post_webhook(f"{title} for {cfg_file}")
+    not_none_values = filter(None.__ne__, positive_scans)
+    list_of_values = list(not_none_values)
+    content_df = pd.DataFrame(list_of_values).reindex(columns=['Ticker','TargetDate','TargetVolume'])
+    content_str = content_df.to_string()
+    for chunk in [content_str[i:i+2000] for i in range(0, len(content_str), 2000)]:
+      post_webhook(chunk)
 
   end_time = datetime.now()
   print(end_time - start_time)
+
+if __name__ == '__main__':
+  scan_markets()

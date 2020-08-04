@@ -1,0 +1,33 @@
+name: Generating Report
+# Don't want to burn my private minutes at this point
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '30 21 * * 1-5'
+
+env:
+  DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+
+jobs:
+  make_report:
+    name: Generate Report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        uses: abatilo/actions-poetry@v1.5.0
+        with:
+          python_version: 3.6.7
+          poetry_version: 1.0.9
+          args: install
+
+      - name: Coverage Report
+        uses: abatilo/actions-poetry@v1.5.0
+        with:
+          python_version: 3.6.7
+          poetry_version: 1.0.9
+          # working_directory: ./working_dir
+          args: run python market_scanner.py

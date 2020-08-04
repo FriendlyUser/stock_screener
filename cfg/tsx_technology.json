@@ -1,4 +1,5 @@
 {
+  "name": "TSXV Technology Volume Checker",
   "tsx": {
     "tickers_config": {
       "exchanges": "TSXV",

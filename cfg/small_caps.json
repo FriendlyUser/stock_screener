@@ -1,0 +1,18 @@
+{
+  "name": "Small Cap Volume Checker",
+  "tsx": {
+    "tickers_config": {
+      "exchanges": "TSXV"
+    }
+  },
+  "cse": {
+    "tickers_config": {
+      "sectors": ""
+    }
+  },
+  "settings": {
+    "month_cutoff": 5,
+    "day_cutoff": 3,
+    "std_cutoff": 3
+  }
+}
