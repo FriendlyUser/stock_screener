@@ -12,7 +12,7 @@
   },
   "settings": {
     "month_cutoff": 5,
-    "day_cutoff": 3,
-    "std_cutoff": 3
+    "day_cutoff": 4,
+    "std_cutoff": 1.1
   }
 }
