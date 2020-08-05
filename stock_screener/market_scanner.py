@@ -85,9 +85,7 @@ def get_stock_matches(tickers):
   STD_CUTOFF = search_settings.get('std_cutoff', 0.75)
   currentDate = datetime.strptime(
           date.today().strftime("%Y-%m-%d"), "%Y-%m-%d")
-  cpus = multiprocessing.cpu_count()
-  with multiprocessing.Pool(processes=cpus) as pool:
-        results = pool.map(get_match, tickers)
+  positive_scans = []
   for ticker in tickers:
     ticker_data = get_data(ticker, MONTH_CUTOFF)
     d = find_anomalies(ticker_data, STD_CUTOFF)
