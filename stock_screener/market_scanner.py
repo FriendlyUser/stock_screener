@@ -7,11 +7,11 @@ import pandas as pd
 import glob
 import json
 import multiprocessing
+import importlib
+import builtins
 from datetime import datetime, date
-from get_stocks import TickerController
-from util import post_webhook
-
-search_settings = dict()
+from stock_screener.get_stocks import TickerController
+from stock_screener.util import post_webhook
 
 def get_data(ticker: str, month_cutoff=5)-> pd.DataFrame:
   currentDate = datetime.strptime(
@@ -103,7 +103,6 @@ def get_stock_matches(tickers):
 
 
 def scan_markets():
-  global search_settings
   from datetime import datetime
   start_time = datetime.now()
   # every json file has settings controlling what tickers will be "found"
@@ -111,12 +110,17 @@ def scan_markets():
     positive_scans = []
     with open(cfg_file) as file_:
       cfg = json.load(file_)
-    search_settings = cfg.get('settings')
+    scan_type = cfg.get('type', 'unusual_volume')
     ticker_controller = TickerController(cfg)
     tickers = ticker_controller.get_ytickers()
+    scanner_lib_name = f'stock_screener.{scan_type}.logic'
+    scanner_lib = importlib.import_module(scanner_lib_name)
+    Scanner = scanner_lib.Scanner(tickers, cfg)
+    Scanner.main_func()
+    """ 
     cpus = multiprocessing.cpu_count()
-    with multiprocessing.Pool(cpus) as p:
-      positive_scans = p.map(get_match, tickers)
+    with multiprocessing.Pool(cpus, ) as p:
+      positive_scans = p.map(scanner_lib.get_match, tickers)
     
     title = cfg.get('name', '')
     post_webhook(f"{title} for {cfg_file}")
@@ -126,6 +130,7 @@ def scan_markets():
     content_str = content_df.to_string()
     for chunk in [content_str[i:i+2000] for i in range(0, len(content_str), 2000)]:
       post_webhook(chunk)
+    """
 
   end_time = datetime.now()
   print(end_time - start_time)

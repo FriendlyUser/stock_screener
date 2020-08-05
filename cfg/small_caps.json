@@ -1,5 +1,6 @@
 {
   "name": "Small Cap Volume Checker",
+  "type": "unusual_volume",
   "tsx": {
     "tickers_config": {
       "exchanges": "TSXV"

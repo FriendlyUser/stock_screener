@@ -1,5 +1,6 @@
 {
   "name": "TSXV Technology Volume Checker",
+  "type": "unusual_volume",
   "tsx": {
     "tickers_config": {
       "exchanges": "TSXV",
@@ -8,7 +9,7 @@
   },
   "settings": {
     "month_cutoff": 5,
-    "day_cutoff": 3,
-    "std_cutoff": 0.5
+    "day_cutoff": 1,
+    "std_cutoff": 2
   }
 }

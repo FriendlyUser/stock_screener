@@ -16,4 +16,3 @@ def post_webhook(content: str):
       print(err)
   else:
       print("Payload delivered successfully, code {}.".format(result.status_code))
-
