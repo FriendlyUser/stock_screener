@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "stock_screener"
-version = "0.1.0-prerelease"
+version = "0.1.0-alpha.1"
 description = "Stock Screener for canadian stocks"
 authors = ["dli <davidli012345@gmail.com>"]
 
