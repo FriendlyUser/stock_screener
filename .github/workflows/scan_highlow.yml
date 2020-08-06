@@ -1,4 +1,4 @@
-name: Scan Market Small Caps Volume
+name: Scan Market High Low
 # Don't want to burn my private minutes at this point
 on:
   push:
