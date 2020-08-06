@@ -29,12 +29,18 @@ class TickerController:
         ytickers = ytickers_series.tolist()
         self.yf_tickers = [*self.yf_tickers, *ytickers]
     
-    # DO cse listings
+    # Do cse listings
     cse_cfg = cfg.get('cse')
     if cse_cfg is not None:
       # ticker_cfg, not going to check if atm
       cse_ticker_cfg = cse_cfg.get('tickers_config')
+      industries = cse_ticker_cfg.get('industries')
       cse_df = get_cse_tickers_df()
+
+      # subfilter by industry, don't feel like making it more complicated
+      if industries is not None:
+        cse_df = cse_df[cse_df['Industry'].isin(industries)]
+
       cse_df = cse_df[['Symbol']]
       ytickers_series = cse_df.apply(self.cse_ticker_to_yahoo, axis=1)
       ytickers_series = ytickers_series.drop_duplicates(keep='last')

@@ -1,6 +1,7 @@
 import glob
 import json
 import importlib
+import os
 from datetime import datetime, date
 from stock_screener.get_stocks import TickerController
 from stock_screener.util import post_webhook
@@ -36,7 +37,17 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='parse the config file')
   parser.add_argument('-f','--files', nargs='+', help='<Required> List of config files')
   args = parser.parse_args()
-  if len(args.files) > 0:
+  files = args.files
+  valid_files = []
+  # check for valid files, todo check format
+  for file_path in args.files:
+    valid_file = os.path.isfile(file_path)
+    if valid_file is True:
+      valid_files.append(valid_file)
+    else:
+      print(f"File path {file_path} invalid")
+  if len(valid_files) > 0:
+    # TODO validate files exist
     for config_file in args.files:
       scan_markets(config_file)
   else:
