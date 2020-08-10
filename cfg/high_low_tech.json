@@ -12,7 +12,7 @@
     }
   },
   "settings": {
-    "percent_cutoff": 0.3,
-    "day_cutoff": 5
+    "percent_cutoff": 0.35,
+    "day_cutoff": 3
   }
 }
