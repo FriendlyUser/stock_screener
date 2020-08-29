@@ -31,7 +31,7 @@ class Scanner(ScannerInterface):
     sys.stdout = open(os.devnull, "w")
     data = yf.download(ticker, past_date, current_date)
     sys.stdout = sys.__stdout__
-    return data[["High", "Low"]]
+    return data
 
   def find_anomaly(self, data: pd.DataFrame, PERCENT_CUTOFF = 0.40)-> dict:
     max_value = data['High'].max()
@@ -40,12 +40,16 @@ class Scanner(ScannerInterface):
     max_per_diff = value_diff / max_value
     min_per_diff = value_diff / min_value
     if max_per_diff >= PERCENT_CUTOFF or min_per_diff >= PERCENT_CUTOFF:
+      d_open = data['Open'].iloc[1]
+      d_close = data['Close'].iloc[-1]
+      Direction = 'up' if d_open > d_close else 'down'
       d = dict(
         Max = max_value,
         Min = min_value,
         Diff = value_diff,
         MaxPercentDiff = max_per_diff,
-        MinPercentDiff = min_per_diff
+        MinPercentDiff = min_per_diff,
+        Direction = Direction
       )
     else:
       d = dict(Max = max_value, Min = min_value, Diff = value_diff)
@@ -82,17 +86,20 @@ class Scanner(ScannerInterface):
     not_none_values = filter(None.__ne__, positive_scans)
     list_of_values = list(not_none_values)
     content_df = pd.DataFrame(list_of_values).reindex(
-      columns=['Ticker', 'Max', 'Min','Diff', 'MaxPercentDiff', 'MinPercentDiff']
+      columns=['Ticker', 'Min', 'Max', 'Diff', 'MaxPercentDiff', 'MinPercentDiff', 'Direction']
     )
+    if content_df.empty == True:
+      post_webhook(f"**{title}**")
+      return
     content_str = content_df.to_string(index=False)
     # move later, just return df
-    for chunk in [content_str[i:i+2000] for i in range(0, len(content_str), 2000)]:
-      post_webhook(chunk)
+    for chunk in [content_str[i:i+1994] for i in range(0, len(content_str), 1994)]:
+      post_webhook(f"```{chunk}```")
     return content_df
 
 
 if __name__ == '__main__':
-  test_tickers = ['IP.CN', 'NTAR.CN', 'API.CN']
+  test_tickers = ['IP.CN', 'NTAR.CN', 'API.CN', 'IGN.CN']
   cfg = {}
   scanner = Scanner(test_tickers, cfg)
   ip = scanner.main_func()

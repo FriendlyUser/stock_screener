@@ -98,6 +98,6 @@ class Scanner(ScannerInterface):
     content_df = pd.DataFrame(list_of_values).reindex(columns=['Ticker','TargetDate','TargetVolume'])
     content_str = content_df.to_string(index=False)
     # move later, just return df
-    for chunk in [content_str[i:i+2000] for i in range(0, len(content_str), 2000)]:
-      post_webhook(chunk)
+    for chunk in [content_str[i:i+1994] for i in range(0, len(content_str), 1994)]:
+      post_webhook(f"```{chunk}```")
     return content_df
