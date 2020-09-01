@@ -40,9 +40,13 @@ class Scanner(ScannerInterface):
     max_per_diff = value_diff / max_value
     min_per_diff = value_diff / min_value
     if max_per_diff >= PERCENT_CUTOFF or min_per_diff >= PERCENT_CUTOFF:
-      d_open = data['Open'].iloc[1]
-      d_close = data['Close'].iloc[-1]
-      Direction = 'up' if d_open > d_close else 'down'
+      Direction = 'N/A'
+      try:
+        d_open = data['Open'].iloc[1]
+        d_close = data['Close'].iloc[-1]
+        Direction = 'up' if d_open > d_close else 'down'
+      except Exception as e:
+        print(e)
       d = dict(
         Max = max_value,
         Min = min_value,
