@@ -25,7 +25,19 @@ class TickerController:
         if tsx_cfg is not None:
             tsx_ticker_cfg = tsx_cfg.get("tickers_config")
             if tsx_ticker_cfg is not None:
-                tsx_df = dl_tsx_xlsx(**tsx_ticker_cfg)
+                # tsx_df = dl_tsx_xlsx(**tsx_ticker_cfg)
+                tsx_df = pd.read_csv("tsx.csv")
+                exchange = tsx_ticker_cfg.get("exchanges")
+                if exchange != None:
+                    # remove exchanges
+                    # should only be TSX or TSXV or none for both
+                    tsx_df = tsx_df.loc[tsx_df["Ex."] == exchange]
+                sectors = tsx_ticker_cfg.get("sectors")
+                if sectors != None:
+                    sector_list = sectors.split(",")
+                    sector_list = [sector.title() for sector in sector_list]
+                    tsx_df = tsx_df[tsx_df["Sector"].isin(sector_list)]
+
                 tsx_df = tsx_df[["Ex.", "Ticker"]]
                 ytickers_series = tsx_df.apply(self.tsx_ticker_to_yahoo, axis=1)
                 ytickers_series = ytickers_series.drop_duplicates(keep="last")

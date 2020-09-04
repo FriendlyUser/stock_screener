@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "stock_screener"
-version = "0.1.0-alpha.1"
+version = "0.1.0"
 description = "Stock Screener for canadian stocks"
 authors = ["dli <davidli012345@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
-cad-tickers = "^0.2.4"
+cad-tickers = "^0.2.9"
 yfinance = "^0.1.54"
 
 [tool.poetry.scripts]
