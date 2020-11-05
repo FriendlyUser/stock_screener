@@ -10,6 +10,7 @@ Scan the canadian stock market for unusual behaviour
 * Add penny stock filtering (needs Abstract TickerController)
 * Graphing module for top ten and send to discord -- under utils?
 * Test cases (maybe) probably lightweight unittests
+* Add workflow for pull requests (send to junk channel in stock discord)
 
 ### V2 (maybe later)
 
