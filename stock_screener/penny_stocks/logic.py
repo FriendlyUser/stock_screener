@@ -73,5 +73,6 @@ class Scanner(ScannerInterface):
         for chunk in [
             content_str[i : i + 1994] for i in range(0, len(content_str), 1994)
         ]:
+            time.sleep(2)
             post_webhook(f"```{chunk}```")
         return content_df
