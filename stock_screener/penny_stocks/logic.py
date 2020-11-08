@@ -38,13 +38,18 @@ class Scanner(ScannerInterface):
         """
         DAY_CUTOFF = self.search_settings.get("day_cutoff", 1)
         ticker_data = self.get_data(ticker, DAY_CUTOFF)
-        last_close = ticker_data["Close"].iloc[-1]
-        print(last_close)
-        if last_close < 5:
-            stonk = dict()
-            stonk["Ticker"] = ticker
-            stonk["Volume"] = ticker_data["Volume"].iloc[-1]
-            return stonk
+        try:
+            last_close = ticker_data["Close"].iloc[-1]
+            print(last_close)
+            if last_close < 5:
+                stonk = dict()
+                stonk["Ticker"] = ticker
+                stonk["Volume"] = ticker_data["Volume"].iloc[-1]
+                return stonk
+        except Exception as e:
+            print("Index failure for stock")
+            print(ticker)
+            print(e)
 
     def main_func(self):
         """
