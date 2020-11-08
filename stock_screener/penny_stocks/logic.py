@@ -8,7 +8,7 @@ import multiprocessing
 from datetime import datetime, date
 from stock_screener.util import post_webhook
 from stock_screener.interfaces import ScannerInterface
-
+import time
 
 class Scanner(ScannerInterface):
     def __init__(self, tickers, cfg):
