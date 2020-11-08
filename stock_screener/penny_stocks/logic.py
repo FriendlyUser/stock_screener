@@ -10,6 +10,7 @@ from stock_screener.util import post_webhook
 from stock_screener.interfaces import ScannerInterface
 import time
 
+
 class Scanner(ScannerInterface):
     def __init__(self, tickers, cfg):
         self.tickers = tickers
@@ -32,6 +33,16 @@ class Scanner(ScannerInterface):
         print("Ticker is: " + tick.upper())
         print("*********************\n\n\n")
 
+    @staticmethod
+    def calc_price_vol(ticker_data: pd.DataFrame):
+        try:
+            price = ticker_data["Close"].iloc[-1]
+            volume = ticker_data["Volume"].iloc[-1]
+            return price * volume
+        except Exception as e:
+            print(e)
+            return None
+
     def get_match(self, ticker):
         """
         get match for ticker
@@ -40,8 +51,9 @@ class Scanner(ScannerInterface):
         ticker_data = self.get_data(ticker, DAY_CUTOFF)
         try:
             last_close = ticker_data["Close"].iloc[-1]
-            print(last_close)
-            if last_close < 5:
+            price_volume = self.calc_price_vol(ticker_data)
+            # penny stock with enough liquidity
+            if last_close < 5 and price_volume > 10 * 5000:
                 stonk = dict()
                 stonk["Ticker"] = ticker
                 stonk["Volume"] = ticker_data["Volume"].iloc[-1]
