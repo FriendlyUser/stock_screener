@@ -5,9 +5,15 @@ Inspired by [UnusualVolumeDetector](https://github.com/SamPom100/UnusualVolumeDe
 ## Project Goals
 Scan the canadian stock market for unusual behaviour
 
+### Current tasks
+
+* Graphing module for top ten and send to discord -- under utils?
+* Test cases (maybe) probably lightweight unittests
+* Add workflow for pull requests (send to junk channel in stock discord)
 
 ### V2
-
+* Abstract TickerController (multiple ticker controllers), default old tickerController to keep compability. Extra configuration option
+* Add penny stock filtering (needs Abstract TickerController)
 * Make into pip package (should be easy with poetry)
 * Add Sphinx Docs (again not too hard)
 * Set cfg flag to skip in development or prod

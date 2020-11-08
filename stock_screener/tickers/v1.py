@@ -2,11 +2,10 @@
   Grab stocks from cad tickers 
 """
 import pandas as pd
-from cad_tickers.exchanges.tsx import dl_tsx_xlsx, add_descriptions_to_df_pp
 from cad_tickers.exchanges.cse import get_cse_tickers_df
 
 
-class TickerController:
+class TickerControllerV1:
     """
     Grabs cad_tickers dataframes and normalized them
     """
@@ -25,7 +24,6 @@ class TickerController:
         if tsx_cfg is not None:
             tsx_ticker_cfg = tsx_cfg.get("tickers_config")
             if tsx_ticker_cfg is not None:
-                # tsx_df = dl_tsx_xlsx(**tsx_ticker_cfg)
                 tsx_df = pd.read_csv("tsx.csv")
                 exchange = tsx_ticker_cfg.get("exchanges")
                 if exchange != None:
@@ -92,4 +90,4 @@ if __name__ == "__main__":
 
     with open("cfg/tsx_technology.json") as file_:
         cfg = json.load(file_)
-        ticker_controller = TickerController(cfg)
+        ticker_controller = TickerControllerV1(cfg)

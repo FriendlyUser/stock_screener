@@ -3,7 +3,7 @@ import json
 import importlib
 import os
 from datetime import datetime, date
-from stock_screener.get_stocks import TickerController
+from stock_screener.tickers import TickerControllerV1, TickerControllerV2
 from stock_screener.util import post_webhook
 from typing import Union
 
@@ -12,8 +12,14 @@ def perform_scan(cfg_path):
     with open(cfg_path) as file_:
         cfg = json.load(file_)
     scan_type = cfg.get("type", "unusual_volume")
-    ticker_controller = TickerController(cfg)
+    tcv = cfg.get("tcv")
+    if tcv == None:
+        ticker_controller = TickerControllerV1(cfg)
+    else:
+        ticker_controller = TickerControllerV2(cfg)
+
     tickers = ticker_controller.get_ytickers()
+    print(tickers)
     scanner_lib_name = f"stock_screener.{scan_type}.logic"
     scanner_lib = importlib.import_module(scanner_lib_name)
     Scanner = scanner_lib.Scanner(tickers, cfg)
