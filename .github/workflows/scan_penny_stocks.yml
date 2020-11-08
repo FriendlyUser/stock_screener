@@ -3,13 +3,12 @@ name: Penny stock scanner
 on:
   push:
     branches:
-      - feature/*
-
+      - master
     schedule:
       cron: '30 21 7 * 5'
 
 env:
-  DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+  DISCORD_WEBHOOK: ${{ secrets.DISCORD_INVESTING_WEBHOOK }}
 
 jobs:
   make_report:

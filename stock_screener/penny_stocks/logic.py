@@ -78,7 +78,7 @@ class Scanner(ScannerInterface):
         with multiprocessing.Pool(cpus) as p:
             positive_scans = p.map(self.get_match, self.tickers)
         curr_date = date.today().strftime("%Y-%m-%d")
-        post_webhook(f"**{title}**")
+        post_webhook(f"**{title} - {curr_date}**")
         not_none_values = filter(None.__ne__, positive_scans)
         list_of_values = list(not_none_values)
         post_webhook(f"Number of stocks: {len(list_of_values)}")
