@@ -13,6 +13,7 @@ from stock_screener.interfaces import ScannerInterface
 class Scanner(ScannerInterface):
     def __init__(self, tickers, cfg):
         self.tickers = tickers
+        print(tickers)
         self.cfg = cfg
         self.search_settings = cfg.get("settings", {})
 
@@ -35,7 +36,7 @@ class Scanner(ScannerInterface):
         """
         get match for ticker
         """
-        DAY_CUTOFF = self.search_settings.get("day_cutoff", 5)
+        DAY_CUTOFF = self.search_settings.get("day_cutoff", 1)
         ticker_data = self.get_data(ticker, DAY_CUTOFF)
         last_close = ticker_data["Close"].iloc[-1]
         print(last_close)
@@ -62,7 +63,7 @@ class Scanner(ScannerInterface):
         list_of_values = list(not_none_values)
         content_df = pd.DataFrame(list_of_values).reindex(columns=["Ticker", "Volume"])
         content_str = content_df.to_string(index=False)
-        
+
         # if else statement in case dataframe is missing
         for chunk in [
             content_str[i : i + 1994] for i in range(0, len(content_str), 1994)

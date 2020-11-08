@@ -19,6 +19,7 @@ def perform_scan(cfg_path):
         ticker_controller = TickerControllerV2(cfg)
 
     tickers = ticker_controller.get_ytickers()
+    print(tickers)
     scanner_lib_name = f"stock_screener.{scan_type}.logic"
     scanner_lib = importlib.import_module(scanner_lib_name)
     Scanner = scanner_lib.Scanner(tickers, cfg)
