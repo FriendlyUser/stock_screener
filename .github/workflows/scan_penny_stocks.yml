@@ -24,7 +24,7 @@ jobs:
           poetry_version: 1.0.9
           args: install
 
-      - name: Coverage Report
+      - name: Generate Stock List
         uses: abatilo/actions-poetry@v1.5.0
         with:
           python_version: 3.6.7

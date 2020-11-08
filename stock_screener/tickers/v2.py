@@ -29,7 +29,8 @@ class TickerControllerV2:
 
         # get symbols from tickers
         ytickers_series = ticker_df.apply(self.ex_to_yahoo_ex, axis=1)
-        self.ytickers = ytickers_series.tolist()
+        ytickers = ytickers_series.tolist()
+        self.yf_tickers = ytickers
 
     def get_ytickers(self) -> list:
         return self.yf_tickers
@@ -60,3 +61,5 @@ if __name__ == "__main__":
     with open("cfg/penny_stocks.json") as file_:
         cfg = json.load(file_)
         ticker_controller = TickerControllerV2(cfg)
+        ticker_list = ticker_controller.get_ytickers()
+        print(ticker_list)
