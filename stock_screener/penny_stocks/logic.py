@@ -16,15 +16,15 @@ class Scanner(ScannerInterface):
         self.cfg = cfg
         self.search_settings = cfg.get("settings", {})
 
-    def get_data(self, ticker: str, days_cutoff=5) -> pd.DataFrame:
+    def get_data(self, ticker: str, months_cutoff=1) -> pd.DataFrame:
         current_date = datetime.strptime(date.today().strftime("%Y-%m-%d"), "%Y-%m-%d")
         past_date = current_date - dateutil.relativedelta.relativedelta(
-            days=days_cutoff
+            months=months_cutoff
         )
         sys.stdout = open(os.devnull, "w")
         data = yf.download(ticker, past_date, current_date)
         sys.stdout = sys.__stdout__
-        return data[["Volume", "Close"]]
+        return data
 
     def custom_print(self, d: pd.DataFrame, tick: str):
         print("\n\n\n*******  " + tick.upper() + "  *******")
@@ -38,6 +38,7 @@ class Scanner(ScannerInterface):
         DAY_CUTOFF = self.search_settings.get("day_cutoff", 5)
         ticker_data = self.get_data(ticker, DAY_CUTOFF)
         last_close = ticker_data["Close"].iloc[-1]
+        print(last_close)
         if last_close < 5:
             stonk = dict()
             stonk["Ticker"] = ticker
@@ -61,7 +62,8 @@ class Scanner(ScannerInterface):
         list_of_values = list(not_none_values)
         content_df = pd.DataFrame(list_of_values).reindex(columns=["Ticker", "Volume"])
         content_str = content_df.to_string(index=False)
-        # move later, just return df
+        
+        # if else statement in case dataframe is missing
         for chunk in [
             content_str[i : i + 1994] for i in range(0, len(content_str), 1994)
         ]:
