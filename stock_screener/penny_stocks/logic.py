@@ -57,6 +57,8 @@ class Scanner(ScannerInterface):
                 stonk = dict()
                 stonk["Ticker"] = ticker
                 stonk["Volume"] = ticker_data["Volume"].iloc[-1]
+                stonk["PriceVolume"] = price_volume
+                stonk["Close"] = last_close
                 return stonk
         except Exception as e:
             print("Index failure for stock")
@@ -78,7 +80,7 @@ class Scanner(ScannerInterface):
         post_webhook(f"**{title}**")
         not_none_values = filter(None.__ne__, positive_scans)
         list_of_values = list(not_none_values)
-        content_df = pd.DataFrame(list_of_values).reindex(columns=["Ticker", "Volume"])
+        content_df = pd.DataFrame(list_of_values).reindex(columns=["Ticker", "Volume", "PriceVolume", "Close"])
         content_str = content_df.to_string(index=False)
 
         # if else statement in case dataframe is missing
