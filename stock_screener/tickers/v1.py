@@ -2,7 +2,6 @@
   Grab stocks from cad tickers 
 """
 import pandas as pd
-from cad_tickers.exchanges.tsx import dl_tsx_xlsx, add_descriptions_to_df_pp
 from cad_tickers.exchanges.cse import get_cse_tickers_df
 
 

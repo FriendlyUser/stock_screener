@@ -5,6 +5,9 @@ on:
     branches:
       - feature/*
 
+    schedule:
+      cron: '30 21 7 * 5'
+
 env:
   DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
 
@@ -27,4 +30,4 @@ jobs:
           python_version: 3.6.7
           poetry_version: 1.0.9
           # working_directory: ./working_dir
-          args: run python -m stock_screener.market_scanner --f cfg/high_low_tech.json
+          args: run python -m stock_screener.market_scanner --f cfg/penny_stocks.json

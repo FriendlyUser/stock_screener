@@ -1,0 +1,34 @@
+{
+  "name": "Penny Stocks",
+  "type": "penny_stocks",
+  "tcv": "v2",
+  "tickers_config": {
+    "industries": [
+      "Industrial Products",
+      "Biotechnology",
+      "Farm & Heavy Construction Machinery",
+      "Business Services",
+      "Chemicals",
+      "Medical Diagnostics & Research",
+      "Metals & Mining",
+      "Utilities - Independent Power Producers",
+      "Utilities - Regulated",
+      "REITs",
+      "Banks",
+      "Drug Manufacturers",
+      "Aerospace & Defense",
+      "Other Energy Sources",
+      "Personal Services",
+      "Software",
+      "Telecommunication Services",
+      "Interactive Media",
+      "Media - Diversified",
+      "Agriculture",
+      "Waste Management",
+      "Healthcare Plans"
+    ]
+  },
+  "settings": {
+    "price_limit": 5
+  }
+}
