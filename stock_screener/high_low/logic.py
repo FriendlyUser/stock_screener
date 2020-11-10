@@ -89,6 +89,7 @@ class Scanner(ScannerInterface):
         post_webhook(f"**{title}**")
         not_none_values = filter(None.__ne__, positive_scans)
         list_of_values = list(not_none_values)
+        post_webhook(f"Length: **{len(list_of_values)}**")
         content_df = pd.DataFrame(list_of_values).reindex(
             columns=[
                 "Ticker",
