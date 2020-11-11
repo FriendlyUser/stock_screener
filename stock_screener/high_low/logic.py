@@ -42,9 +42,11 @@ class Scanner(ScannerInterface):
             Direction = "N/A"
             try:
                 if data.empty == False:
+                    # first open
                     d_open = data["Open"].iloc[1]
+                    # last close
                     d_close = data["Close"].iloc[-1]
-                    Direction = "up" if d_open > d_close else "down"
+                    Direction = "up" if d_close > d_open else "down"
             except Exception as e:
                 print(e)
             d = dict(
@@ -62,6 +64,7 @@ class Scanner(ScannerInterface):
     def get_match(self, ticker):
         """
         get match for ticker
+        for the past five days
         """
         PERCENT_CUTOFF = self.search_settings.get("percent_cutoff", 0.35)
         DAY_CUTOFF = self.search_settings.get("day_cutoff", 5)
