@@ -96,8 +96,8 @@ class Scanner(ScannerInterface):
         content_df = pd.DataFrame(list_of_values).reindex(
             columns=[
                 "Ticker",
-                "Min",
                 "Max",
+                "Min",
                 "Diff",
                 "MaxPercentDiff",
                 "MinPercentDiff",
