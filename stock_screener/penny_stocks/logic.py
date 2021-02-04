@@ -34,6 +34,10 @@ class Scanner(ScannerInterface):
         print("*********************\n\n\n")
 
     @staticmethod
+    def get_three_month():
+        pass
+    
+    @staticmethod
     def calc_price_vol(ticker_data: pd.DataFrame):
         try:
             price = ticker_data["Close"].iloc[-1]
