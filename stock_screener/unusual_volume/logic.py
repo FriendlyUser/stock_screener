@@ -62,7 +62,7 @@ class Scanner(ScannerInterface):
         """
         get match for ticker
         """
-        MONTH_CUTOFF = self.search_settings.get("month_cutoff", 5)
+        MONTH_CUTOFF = self.search_settings.get("month_cutoff", 2)
         DAY_CUTOFF = self.search_settings.get("day_cutoff", 3)
         STD_CUTOFF = self.search_settings.get("std_cutoff", 0.75)
         currentDate = datetime.strptime(date.today().strftime("%Y-%m-%d"), "%Y-%m-%d")

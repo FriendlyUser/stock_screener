@@ -33,9 +33,6 @@ class Scanner(ScannerInterface):
         print("Ticker is: " + tick.upper())
         print("*********************\n\n\n")
 
-    @staticmethod
-    def get_three_month():
-        pass
     
     @staticmethod
     def calc_price_vol(ticker_data: pd.DataFrame):
@@ -57,7 +54,7 @@ class Scanner(ScannerInterface):
             last_close = ticker_data["Close"].iloc[-1]
             price_volume = self.calc_price_vol(ticker_data)
             # penny stock with enough liquidity
-            if last_close < 5 and price_volume > 10 * 5000:
+            if last_close < 5 and price_volume > 1E6:
                 stonk = dict()
                 stonk["Ticker"] = ticker
                 stonk["Volume"] = ticker_data["Volume"].iloc[-1]
