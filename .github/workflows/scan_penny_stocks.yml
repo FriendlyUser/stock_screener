@@ -16,17 +16,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install
-        uses: abatilo/actions-poetry@v1.5.0
+      - uses: actions/setup-python@v2
         with:
-          python_version: 3.6.7
-          poetry_version: 1.0.9
-          args: install
+          python-version: 3.6.9
+
+      - name: Run image
+        uses: abatilo/actions-poetry@v2.0.0
+
+      - name: Install dependencies
+        run: poetry install
 
       - name: Generate Stock List
-        uses: abatilo/actions-poetry@v1.5.0
-        with:
-          python_version: 3.6.7
-          poetry_version: 1.0.9
-          # working_directory: ./working_dir
-          args: run python -m stock_screener.market_scanner --f cfg/penny_stocks.json
+        run: poetry run python -m stock_screener.market_scanner --f cfg/penny_stocks.json
