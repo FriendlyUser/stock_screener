@@ -22,7 +22,7 @@ class TickerControllerV2:
             "https://raw.githubusercontent.com/FriendlyUser/cad_tickers_list/main/static/latest/stocks.csv"
         )
         tickers_config = cfg.get("tickers_config")
-        us_df = None
+        us_df = pd.DataFrame()
         if tickers_config != None:
             industries = tickers_config.get("industries")
             if industries != None:
@@ -36,7 +36,7 @@ class TickerControllerV2:
         # get symbols from tickers
         ytickers_series = ticker_df.apply(self.ex_to_yahoo_ex, axis=1)
         ytickers = ytickers_series.tolist()
-        if us_df != None:
+        if us_df.empty == False:
             us_ytickers_series = us_df.apply(self.ex_to_yahoo_ex, axis=1)
             us_ytickers = us_ytickers_series.tolist()
             ytickers = [*ytickers, us_ytickers]
