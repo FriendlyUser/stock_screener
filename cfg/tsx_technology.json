@@ -1,14 +1,18 @@
 {
   "name": "TSXV Technology Volume Checker",
   "type": "unusual_volume",
-  "tsx": {
-    "tickers_config": {
-      "exchanges": "TSXV",
-      "sectors": "technology"
-    }
+  "tcv": "v2",
+  "tickers_config": {
+    "industries": [
+      "Biotechnology",
+      "Software",
+      "Telecommunication Services",
+      "Interactive Media"
+    ],
+    "us_tickers_url": "https://raw.githubusercontent.com/dli-invest/eod_tickers/main/data/us_stock_data.csv"
   },
   "settings": {
-    "month_cutoff": 5,
+    "month_cutoff": 1,
     "day_cutoff": 1,
     "std_cutoff": 2
   }
