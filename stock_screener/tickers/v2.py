@@ -39,7 +39,7 @@ class TickerControllerV2:
         if us_df.empty == False:
             us_ytickers_series = us_df.apply(self.ex_to_yahoo_ex, axis=1)
             us_ytickers = us_ytickers_series.tolist()
-            ytickers = [*ytickers, us_ytickers]
+            ytickers = [*ytickers, *us_ytickers]
         self.yf_tickers = ytickers
 
     def get_ytickers(self) -> list:
