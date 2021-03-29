@@ -54,7 +54,7 @@ class TickerControllerV2:
         Returns:
 
         """
-        ticker = row["symbol"]
+        ticker = str(row["symbol"])
         exchange = row["exShortName"]
         if exchange == "CSE":
             # strip :CNX from symbol
