@@ -60,8 +60,10 @@ class TickerControllerV2:
             # strip :CNX from symbol
             ticker = ticker.replace(":CNX", "")
         
+        # Missing a exchange code
         if exchange in ["OTCPK", "NYSE", "NASDAQ", "NYE", "NCM", "NSM", "NGS"]:
             ticker = ticker.replace(":US", "")
+        ticker = ticker.replace(":US", "")
         # 1min, 5min, 15min, 30min, 60min, daily, weekly, monthly
         switcher = {"TSXV": "V", "TSX": "TO", "CSE": "CN"}
         yahoo_ex = switcher.get(exchange, None)

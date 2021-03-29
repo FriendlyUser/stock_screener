@@ -38,9 +38,13 @@ class Scanner(ScannerInterface):
         data.reset_index(level=0, inplace=True)
         for i in range(len(data)):
             temp = data["Volume"].iloc[i]
-            if temp > upper_limit:
-                indexs.append(str(data["Date"].iloc[i])[:-9])
-                outliers.append(temp)
+            try:    
+                if temp > upper_limit:
+                    indexs.append(str(data["Date"].iloc[i])[:-9])
+                    outliers.append(temp)
+            except Exception as e:
+                print(e)
+
         d = {"Dates": indexs, "Volume": outliers}
         return d
 
