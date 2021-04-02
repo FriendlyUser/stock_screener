@@ -38,11 +38,11 @@ class TickerControllerV2:
                 # iterate across object property
                 price_filter = us_cfg.get("price")
                 print(us_df.columns)
-                us_df = us_df.filter(us_df["price"] < price_filter)
+                us_df = us_df[us_df["price"] < price_filter]
                 market_cap_filter = us_cfg.get("market_cap")
                 print(us_df.columns)
                 print("STUPID SYSTEM")
-                us_df = us_df.filter(us_df.MarketCap < market_cap_filter)
+                us_df = us_df[us_df["MarketCap"] < price_filter]
                 if industries != None:
                     us_df = us_df[us_df["industry"].isin(industries)]
 
