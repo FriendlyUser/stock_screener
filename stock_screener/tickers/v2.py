@@ -32,6 +32,8 @@ class TickerControllerV2:
             if us_tickers_url != None:
                 # same format as above
                 us_df =  pd.read_csv(us_tickers_url)
+                if industries != None:
+                    us_df = us_df[us_df["industry"].isin(industries)]
 
         # get symbols from tickers
         ytickers_series = ticker_df.apply(self.ex_to_yahoo_ex, axis=1)
