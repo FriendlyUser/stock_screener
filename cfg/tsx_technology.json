@@ -9,7 +9,11 @@
       "Telecommunication Services",
       "Interactive Media"
     ],
-    "us_tickers_url": "https://raw.githubusercontent.com/dli-invest/eod_tickers/main/data/us_stock_data.csv"
+    "us_tickers": {
+      "url": "https://raw.githubusercontent.com/dli-invest/eod_tickers/main/data/us_stock_data.csv",
+      "price": 5,
+      "market_cap": 10E7
+    }
   },
   "settings": {
     "month_cutoff": 1,

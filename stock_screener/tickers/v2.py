@@ -28,10 +28,18 @@ class TickerControllerV2:
             if industries != None:
                 ticker_df = ticker_df[ticker_df["industry"].isin(industries)]
 
-            us_tickers_url = tickers_config.get("us_tickers_url")
-            if us_tickers_url != None:
+            us_cfg = tickers_config.get("us_tickers")
+            if us_cfg != None:
+                # apply filters
                 # same format as above
+                us_tickers_url = us_cfg.get("url")
                 us_df =  pd.read_csv(us_tickers_url)
+                # redo filtering if I need more filters,
+                # iterate across object property
+                price_filter = us_cfg.get("price")
+                us_df = us_df.filter(us_df["price"] < price_filter)
+                market_cap_filter = us_cfg.get("market_cap")
+                us_df = us_df.filter(us_df["MarketCap"] < market_cap_filter)
                 if industries != None:
                     us_df = us_df[us_df["industry"].isin(industries)]
 
