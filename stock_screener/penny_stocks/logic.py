@@ -90,8 +90,9 @@ class Scanner(ScannerInterface):
 
         # if else statement in case dataframe is missing
         for chunk in [
-            content_str[i : i + 1994] for i in range(0, len(content_str), 1994)
+            content_str[i : i + 1950] for i in range(0, len(content_str), 1950)
         ]:
+            print("SENDING CHUNK")
             time.sleep(2)
             post_webhook(f"```{chunk}```")
         return content_df

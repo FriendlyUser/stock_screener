@@ -13,7 +13,7 @@ import multiprocessing
 from datetime import datetime, date
 from stock_screener.util import post_webhook
 from stock_screener.interfaces import ScannerInterface
-
+import time
 
 class Scanner(ScannerInterface):
     def __init__(self, tickers, cfg):
@@ -110,8 +110,9 @@ class Scanner(ScannerInterface):
         content_str = content_df.to_string(index=False)
         # move later, just return df
         for chunk in [
-            content_str[i : i + 1994] for i in range(0, len(content_str), 1994)
+            content_str[i : i + 1950] for i in range(0, len(content_str), 1950)
         ]:
+            time.sleep(2)
             post_webhook(f"```{chunk}```")
         return content_df
 
