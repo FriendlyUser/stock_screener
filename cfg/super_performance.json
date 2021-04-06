@@ -1,0 +1,18 @@
+{
+    "name": "Super Performers",
+    "type": "unusual_volume",
+    "tcv": "v2",
+    "tickers_config": {
+      "industries": [
+        "Biotechnology",
+        "Software",
+        "Telecommunication Services",
+        "Interactive Media"
+      ],
+      "us_tickers": {
+        "url": "https://raw.githubusercontent.com/dli-invest/eod_tickers/main/data/us_stock_data.csv",
+        "price": 20,
+        "market_cap": 100E7
+      }
+    }
+  }

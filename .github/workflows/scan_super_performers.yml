@@ -1,15 +1,15 @@
-name: Scan Market Small Caps Volume
+# https://medium.com/analytics-vidhya/super-performance-stocks-how-to-make-more-than-1-125-on-a-single-small-cap-stock-with-python-5ea3ae393791
+name: Super stock scanner
 # Don't want to burn my private minutes at this point
 on:
   push:
     branches:
       - master
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '30 21 * * 1-5'
+    schedule:
+      cron: '15 22 * * 5'
 
 env:
-  DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+  DISCORD_WEBHOOK: ${{ secrets.DISCORD_INVESTING_WEBHOOK }}
 
 jobs:
   make_report:
@@ -28,4 +28,4 @@ jobs:
         run: poetry install
 
       - name: Generate Stock List
-        run: poetry run python -m stock_screener.market_scanner --f cfg/small_caps.json cfg/technology.json
+        run: poetry run python -m stock_screener.market_scanner --f cfg/super_performance.json
