@@ -80,8 +80,8 @@ class Scanner(ScannerInterface):
         """
         get match for ticker
         """
-        DAY_CUTOFF = self.search_settings.get("day_cutoff", 1)
-        df_stock = self.get_data(ticker, DAY_CUTOFF)
+        MONTH_CUTOFF = self.search_settings.get("month_cutoff", 12)
+        df_stock = self.get_data(ticker, MONTH_CUTOFF)
         try:
             return Scanner.check_stonk(df_stock, ticker) 
         except Exception as e:
