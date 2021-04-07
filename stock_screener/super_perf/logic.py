@@ -18,7 +18,7 @@ class Scanner(ScannerInterface):
         self.search_settings = cfg.get("settings", {})
 
     # get data up to a year for analysis
-    def get_data(self, ticker: str, months_cutoff=12) -> pd.DataFrame:
+    def get_data(self, ticker: str, months_cutoff=25) -> pd.DataFrame:
         current_date = datetime.strptime(date.today().strftime("%Y-%m-%d"), "%Y-%m-%d")
         past_date = current_date - dateutil.relativedelta.relativedelta(
             months=months_cutoff
