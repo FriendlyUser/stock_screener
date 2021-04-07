@@ -30,10 +30,17 @@ class Scanner(ScannerInterface):
     
     @staticmethod
     def make_metrics(df_stock: pd.DataFrame)-> dict:
+        print(df_stock.columns)
+        print("making metrics")
+        df_stock['200_MA']=df_stock['Close'].rolling(window=200).mean()
+        df_stock['150_MA']=df_stock['Close'].rolling(window=150).mean()
+        df_stock['50_MA']=df_stock['Close'].rolling(window=50).mean()
         metrics = {}
+        print("200_MA")
         metrics['200 MA'] = df_stock['200_MA'][-1]
         metrics['150 MA'] = df_stock['150_MA'][-1]
         metrics['50 MA'] = df_stock['50_MA'][-1]
+        print("200_MA_1mago")
         metrics['200 MA_1mago'] = df_stock['200_MA'][-30]
         metrics['150 MA_1mago'] = df_stock['150_MA'][-30]
         metrics['200 MA_2mago'] = df_stock['200_MA'][-60]
@@ -49,9 +56,6 @@ class Scanner(ScannerInterface):
 
     @staticmethod
     def check_stonk(df_stock: pd.DataFrame, ticker: str):
-        df_stock['200_MA']=df_stock['Close'].rolling(window=200).mean()
-        df_stock['150_MA']=df_stock['Close'].rolling(window=150).mean()
-        df_stock['50_MA']=df_stock['Close'].rolling(window=50).mean()
         metrics = Scanner.make_metrics(df_stock)
 
         metrics['c1'] = (metrics['price'] > metrics['200 MA']) & (metrics['price'] > metrics['150 MA'])
