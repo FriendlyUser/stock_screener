@@ -14,7 +14,6 @@ import time
 class Scanner(ScannerInterface):
     def __init__(self, tickers, cfg):
         self.tickers = tickers
-        print(tickers)
         self.cfg = cfg
         self.search_settings = cfg.get("settings", {})
 

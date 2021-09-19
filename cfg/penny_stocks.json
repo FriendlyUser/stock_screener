@@ -6,19 +6,10 @@
     "industries": [
       "Industrial Products",
       "Biotechnology",
-      "Farm & Heavy Construction Machinery",
       "Business Services",
       "Chemicals",
       "Medical Diagnostics & Research",
       "Metals & Mining",
-      "Utilities - Independent Power Producers",
-      "Utilities - Regulated",
-      "REITs",
-      "Banks",
-      "Drug Manufacturers",
-      "Aerospace & Defense",
-      "Other Energy Sources",
-      "Personal Services",
       "Software",
       "Telecommunication Services",
       "Interactive Media",
@@ -30,7 +21,7 @@
     "us_tickers": {
       "url": "https://raw.githubusercontent.com/dli-invest/eod_tickers/main/data/us_stock_data.csv",
       "price": 5,
-      "market_cap": 10E7
+      "market_cap": 10E1
     }
   },
   "settings": {

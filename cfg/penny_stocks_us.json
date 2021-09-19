@@ -1,0 +1,31 @@
+{
+    "name": "Penny Stocks",
+    "type": "penny_stocks",
+    "tcv": "v2",
+    "tickers_config": {
+      "industries": [
+        "Industrial Products",
+        "Biotechnology",
+        "Business Services",
+        "Chemicals",
+        "Medical Diagnostics & Research",
+        "Metals & Mining",
+        "Software",
+        "Telecommunication Services",
+        "Interactive Media",
+        "Media - Diversified",
+        "Agriculture",
+        "Waste Management",
+        "Healthcare Plans"
+      ],
+      "us_tickers": {
+        "url": "https://raw.githubusercontent.com/dli-invest/eod_tickers/main/data/us_stock_data.csv",
+        "price": 5,
+        "market_cap": 10E1
+      }
+    },
+    "settings": {
+      "price_limit": 5
+    }
+  }
+  
