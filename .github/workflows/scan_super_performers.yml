@@ -21,16 +21,8 @@ jobs:
         with:
           python-version: 3.7.1
 
-
-      - name: Install Stuff
-        run: sudo apt-get install libbz2-dev -y
-
-      - name: Run image
-        uses: abatilo/actions-poetry@v2.0.0
-
       - name: Install dependencies
-        run: poetry install
-        continue-on-error: true
+        run: python3 -m pip install -r requirements.txt
 
       - name: Generate Stock List
-        run: poetry run python -m stock_screener.market_scanner --f cfg/super_performance.json
+        run: python3 -m stock_screener.market_scanner --f cfg/super_performance.json
