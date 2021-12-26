@@ -25,9 +25,6 @@ jobs:
       - name: Run image
         uses: abatilo/actions-poetry@v2.0.0
 
-      - name: Install Stuff
-        run: sudo apt-get install libbz2-dev -y
-
       - name: Install dependencies
         run: poetry install
 
