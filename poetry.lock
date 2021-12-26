@@ -237,8 +237,8 @@ requests = ">=2.20"
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.7.1"
-content-hash = "b3730401c48435639a4e290c4296e4120ac5e02560afe72f6aac69f0dbb87e67"
+python-versions = "^3.8.6"
+content-hash = "fdb5c170ee4767d7415663be0b41609caad8cdc0756f52b513d3dbc4cc5eb23a"
 
 [metadata.files]
 beautifulsoup4 = [
