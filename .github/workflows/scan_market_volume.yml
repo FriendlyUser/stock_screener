@@ -22,11 +22,8 @@ jobs:
         with:
           python-version: 3.8.6
 
-      - name: Run image
-        uses: abatilo/actions-poetry@v2.0.0
-
       - name: Install dependencies
-        run: poetry install
+        run: python3 -m pip install -r requirements.txt
 
       - name: Generate Stock List
-        run: poetry run python -m stock_screener.market_scanner --f cfg/small_caps.json cfg/technology.json
+        run: python3 -m stock_screener.market_scanner --f cfg/small_caps.json cfg/technology.json
