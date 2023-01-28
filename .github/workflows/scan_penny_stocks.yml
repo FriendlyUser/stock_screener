@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-    schedule:
-      cron: '30 21 7 * 5'
+    # schedule:
+    # cron: '30 21 7 * 5'
 
 env:
   DISCORD_WEBHOOK: ${{ secrets.DISCORD_INVESTING_WEBHOOK }}
